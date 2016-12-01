@@ -9,7 +9,15 @@
     namespace Phore\Di;
 
 
-    class MiniDiCaller implements DiCaller
+    /**
+     * Class PhoreBaseDiCaller
+     *
+     * This Class implents only the __invoke() functionality
+     * to inject parameters in a callable.
+     *
+     * @package Phore\Di
+     */
+    class PhoreBaseDiCaller implements DiCaller
     {
 
         public function __invoke(callable $fn, array $params = [])
