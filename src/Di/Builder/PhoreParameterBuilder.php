@@ -33,20 +33,28 @@
 
             $parameterRef = $ref->getParameters();
 
-            foreach ($parameterRef as $curParam) {
+            for ($paramIndex = 0; $paramIndex<count ($parameterRef); $paramIndex++) {
+                $curParam = $parameterRef[$paramIndex];
+
                 $className = null;
                 if ($curParam->getClass() !== null) {
                     $className = $curParam->getClass()->getName();
+                }
+
+                $defaultValue = null;
+                if ($curParam->isDefaultValueAvailable()) {
+                    $defaultValue = $curParam->getDefaultValue();
                 }
 
                 $paramDef->parameters[] = [
                     $curParam->getName(),
                     $curParam->getType(),
                     $className,
-                    $curParam->getDefaultValue(),
+                    $defaultValue,
                     $curParam->allowsNull(),
                     $curParam->isOptional(),
-                    $curParam->isArray()
+                    $curParam->isArray(),
+                    $paramIndex
                 ];
             }
             return $paramDef;

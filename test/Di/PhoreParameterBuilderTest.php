@@ -31,16 +31,21 @@
 
                 public function buildValue(
                         string $paramName,
-                        string $paramType,
-                        string $paramClassName,
-                        mixed $paramDefault,
+                        string $paramType = null,
+                        string $paramClassName = null,
+                        $paramDefault,
                         bool $paramAllowsNull,
                         bool $paramIsOptional,
                         bool $paramIsArray,
                         int $paramIndex
-                ) : mixed
+                )
                 {
-                    return "VALUE";
+                    if ($paramIsArray)
+                        return [];
+                    echo $paramType;
+                    if ($paramType == "int")
+                        return 1234;
+                    return "";
                 }
             });
 
