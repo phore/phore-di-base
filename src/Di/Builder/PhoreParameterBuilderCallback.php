@@ -11,5 +11,5 @@
 
     interface PhoreParameterBuilderCallback
     {
-        public function buildValue (string $paramName, string $paramType = null, string $paramClassName = null, $paramDefault, bool $paramAllowsNull, bool $paramIsOptional, bool $paramIsArray, int $paramIndex);
+        public function buildValue (array $values, string $paramName, string $paramType = null, string $paramClassName = null, $paramDefault, bool $paramAllowsNull, bool $paramIsOptional, bool $paramIsArray, int $paramIndex);
     }

@@ -30,6 +30,7 @@
             $params = $c->buildParams($def, new class implements PhoreParameterBuilderCallback {
 
                 public function buildValue(
+                        array $values,
                         string $paramName,
                         string $paramType = null,
                         string $paramClassName = null,
@@ -47,10 +48,11 @@
                         return 1234;
                     return "";
                 }
-            });
+            }, []);
 
             // Call the Function with unpacking the parameters array
             $fn(...$params);
+            self::assertTrue(TRUE);
 
         }
 

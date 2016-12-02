@@ -60,11 +60,11 @@
             return $paramDef;
         }
 
-        public function buildParams (PhoreCallbackParameterDef $paramDef, PhoreParameterBuilderCallback $builder)
+        public function buildParams (PhoreCallbackParameterDef $paramDef, PhoreParameterBuilderCallback $builder, array $values)
         {
             $params = [];
             foreach ($paramDef->parameters as $curParams) {
-                $params[] = $builder->buildValue(...$curParams);
+                $params[] = $builder->buildValue($values, ...$curParams);
             }
             return $params;
 
