@@ -6,23 +6,13 @@
      * Time: 11:31
      */
 
-    namespace Phore\Di;
+    namespace Phore\Di\Builder;
 
 
-    use Phore\Di\Builder\PhoreCallbackParameterDef;
-    use Phore\Di\Builder\PhoreParameterBuilderCallback;
 
     class PhoreParameterBuilder
     {
 
-        /**
-         * @var PhoreParameterBuilderCallback
-         */
-        private $mBuilder;
-
-        public function __construct (PhoreParameterBuilderCallback $builder) {
-            $this->mBuilder = $builder;
-        }
 
 
 
@@ -62,11 +52,11 @@
             return $paramDef;
         }
 
-        public function buildParams (PhoreCallbackParameterDef $paramDef)
+        public function buildParams (PhoreCallbackParameterDef $paramDef, PhoreParameterBuilderCallback $builder)
         {
             $params = [];
             foreach ($paramDef->parameters as $curParams) {
-                $params[] = $this->mBuilder->buildValue(...$curParams);
+                $params[] = $builder->buildValue(...$curParams);
             }
             return $params;
 
