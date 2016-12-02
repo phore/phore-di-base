@@ -14,9 +14,17 @@
     "require": {
         "php": ">=7.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
     "autoload": {
         "psr-4": {
             "Phore\\Di\\": "src/Di"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phore\\Test\\Di\\": "test/Di"
         }
     },
     "minimum-stability": "dev",
