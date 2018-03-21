@@ -10,6 +10,8 @@
 
     use Phore\Di\Builder\PhoreParameterBuilder;
     use Phore\Di\Builder\PhoreParameterBuilderCallback;
+    use Phore\Di\Container\DiUnresolvableException;
+    use Phore\Di\Container\DiUnresolvableInternalException;
 
 
     /**
@@ -52,12 +54,33 @@
         }
 
 
+        protected function __setBuilder (PhoreParameterBuilderCallback $builder)
+        {
+            $this->mBuilder = $builder;
+        }
 
+
+        /**
+         * @param callable $fn
+         * @param array    $params
+         *
+         * @return mixed
+         * @throws DiUnresolvableException
+         */
         public function __invoke(callable $fn, array $params = [])
         {
-            $def = $this->mParamBuilder->buildParamDef($fn);
-            $this->mBuilder->curParams = $params;
-            $funcParams = $this->mParamBuilder->buildParams($def, $this->mBuilder, $params);
-            return $fn(...$funcParams);
+            try {
+                $def = $this->mParamBuilder->buildParamDef($fn);
+                $this->mBuilder->curParams = $params;
+                $funcParams = $this->mParamBuilder->buildParams(
+                    $def,
+                    $this->mBuilder,
+                    $params
+                );
+
+                return $fn(...$funcParams);
+            } catch (DiUnresolvableInternalException $ex) {
+                throw new DiUnresolvableException("Unresolvable __invoke: " . (string)$fn . ": " . $ex->getMessage());
+            }
         }
     }
