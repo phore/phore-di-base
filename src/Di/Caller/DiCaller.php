@@ -6,7 +6,7 @@
      * Time: 16:54
      */
 
-    namespace Phore\Di;
+    namespace Phore\Di\Caller;
 
 
     interface DiCaller

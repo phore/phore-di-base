@@ -6,7 +6,7 @@
      * Time: 16:58
      */
 
-    namespace Phore\Di;
+    namespace Phore\Di\Caller;
 
     use Phore\Di\Builder\PhoreParameterBuilder;
     use Phore\Di\Builder\PhoreParameterBuilderCallback;

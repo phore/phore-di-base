@@ -13,7 +13,7 @@ use Phore\Di\Builder\PhoreParameterBuilderCallback;
 use Phore\Di\Container\Producer\DiResolvable;
 use Phore\Di\Container\Producer\DiService;
 use Phore\Di\Container\Producer\DiValue;
-use Phore\Di\PhoreBaseDiCaller;
+use Phore\Di\Caller\PhoreBaseDiCaller;
 
 class DiContainer extends PhoreBaseDiCaller
 {
