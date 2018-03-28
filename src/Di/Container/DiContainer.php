@@ -14,8 +14,9 @@ use Phore\Di\Container\Producer\DiResolvable;
 use Phore\Di\Container\Producer\DiService;
 use Phore\Di\Container\Producer\DiValue;
 use Phore\Di\Caller\PhoreBaseDiCaller;
+use Psr\Container\ContainerInterface;
 
-class DiContainer extends PhoreBaseDiCaller
+class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
 {
 
     /**
@@ -79,6 +80,24 @@ class DiContainer extends PhoreBaseDiCaller
             }
         });
         $this->add(self::class, new DiValue($this));
+    }
+
+
+    public function has($name) : bool
+    {
+        return $this->isResolvable($name);
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     * @throws DiUnresolvableException
+     * @throws \ErrorException
+     */
+    public function get($name)
+    {
+        return $this->resolve($name);
     }
 
 
