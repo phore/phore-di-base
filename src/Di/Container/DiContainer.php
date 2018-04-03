@@ -105,7 +105,7 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
     {
         if (isset ($addParams[$name])) {
             return true;
-        } else if ($this->instances[$name]) {
+        } else if (isset ($this->instances[$name])) {
             return true;
         }
         return false;
