@@ -70,6 +70,23 @@
         public function __invoke(callable $fn, array $params = [])
         {
             try {
+                $funcParams = $this->buildParametersFor($fn, $params);
+                return $fn(...$funcParams);
+            } catch (DiUnresolvableInternalException $ex) {
+                throw new DiUnresolvableException("Unresolvable __invoke: " . (string)$fn . ": " . $ex->getMessage());
+            }
+        }
+
+        /**
+         * @param callable $fn
+         * @param array    $params
+         *
+         * @return array
+         * @throws DiUnresolvableException
+         */
+        public function buildParametersFor(callable $fn, array $params = []) : array
+        {
+            try {
                 $def = $this->mParamBuilder->buildParamDef($fn);
                 $this->mBuilder->curParams = $params;
                 $funcParams = $this->mParamBuilder->buildParams(
@@ -78,9 +95,34 @@
                     $params
                 );
 
-                return $fn(...$funcParams);
+                return $funcParams;
             } catch (DiUnresolvableInternalException $ex) {
-                throw new DiUnresolvableException("Unresolvable __invoke: " . (string)$fn . ": " . $ex->getMessage());
+                throw new DiUnresolvableException("Unresolvable buildParametersFor: " . (string)$fn . ": " . $ex->getMessage());
             }
         }
+
+        /**
+         * @param       $class
+         * @param array $params
+         *
+         * @return array
+         * @throws DiUnresolvableException
+         */
+        public function buildParametersForConstructor ($class, array $params = []) : array
+        {
+            try {
+                $def = $this->mParamBuilder->buildParamDefForConstructor($class);
+                $this->mBuilder->curParams = $params;
+                $funcParams = $this->mParamBuilder->buildParams(
+                    $def,
+                    $this->mBuilder,
+                    $params
+                );
+
+                return $funcParams;
+            } catch (DiUnresolvableInternalException $ex) {
+                throw new DiUnresolvableException("Unresolvable buildParametersForConstructor: " . (string)$class . ": " . $ex->getMessage());
+            }
+        }
+
     }
