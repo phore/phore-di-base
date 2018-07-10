@@ -168,12 +168,34 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
      * $di->add("param1", new DiService());
      * </Example>
      *
+     * @deprecated Use define() instead
+     *
+     * @param $name
+     * @param $factoryOrValue
+     *
+     *
+     * @return DiContainer
+     */
+    public function add ($name, $factoryOrValue) : self
+    {
+        return $this->define($name, $factoryOrValue);
+    }
+
+    /**
+     * Add a new Value/Factory to Dependency Injection
+     *
+     * <Example>
+     * $di->add("param1", "New Value");
+     * $di->add("param1", function () { echo "new value"; });
+     * $di->add("param1", new DiService());
+     * </Example>
+     *
      * @param $name
      * @param $factoryOrValue
      *
      * @return DiContainer
      */
-    public function add ($name, $factoryOrValue) : self
+    public function define ($name, $factoryOrValue) : self
     {
         $factoryOrValue = $this->argumentToResolvable($factoryOrValue);
         $this->instances[$name] = $factoryOrValue;
