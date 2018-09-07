@@ -85,7 +85,7 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
 
     public function has($name) : bool
     {
-        return $this->isResolvable($name);
+        return isset ($this->instances[$name]);
     }
 
     /**
@@ -97,66 +97,9 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
      */
     public function get($name)
     {
-        return $this->resolve($name);
-    }
-
-
-    public function isResolvable($name, array $addParams = []) : bool
-    {
-        if (isset ($addParams[$name])) {
-            return true;
-        } else if (isset ($this->instances[$name])) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * @param       $name
-     * @param array $addParams
-     *
-     * @return
-     * @throws DiUnresolvableException
-     * @throws \ErrorException
-     */
-    public function resolve($name, array $addParams = [])
-    {
-        if (isset ($addParams[$name])) {
-            $resv = $addParams[$name];
-            $resv = $this->argumentToResolvable($resv);
-        } else if ($this->instances[$name]) {
-            $resv = $this->instances[$name];
-        } else {
-            throw new DiUnresolvableException("'$name' is not resolvable by di-container.");
-        }
-        if (!$resv instanceof DiResolvable) {
-            throw new \ErrorException(
-                "Expected DiResolvable. Found: ".gettype($resv)
-                ." for name '$name'"
-            );
-        }
-        return $resv->resolve($this);
-    }
-
-
-    /**
-     * Wrap allowed arguments (callbacks, etc) into DiResolvable Objects
-     *
-     * @param $input
-     *
-     * @return DiResolvable
-     */
-    public function argumentToResolvable ($input) : DiResolvable
-    {
-        if ( ! $input instanceof DiResolvable) {
-            if (is_callable($input)) {
-                return new DiService($input);
-            } else {
-                return new DiValue($input);
-            }
-        }
-        return $input;
+        if ( ! isset($this->instances[$name]))
+            throw new DiUnresolvableException("No factory found to resolve '$name'.");
+        return phore_resolve($this->instances[$name]);
     }
 
     /**
@@ -187,7 +130,7 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
      * <Example>
      * $di->add("param1", "New Value");
      * $di->add("param1", function () { echo "new value"; });
-     * $di->add("param1", new DiService());
+     * $di->add("param1", new Deferred());
      * </Example>
      *
      * @param $name
@@ -195,9 +138,11 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
      *
      * @return DiContainer
      */
-    public function define ($name, $factoryOrValue) : self
+    public function define ($name, $factoryOrValue, $autoWrapCallable=true) : self
     {
-        $factoryOrValue = $this->argumentToResolvable($factoryOrValue);
+        if (is_callable($factoryOrValue) && $autoWrapCallable) {
+            $factoryOrValue = phore_deferred($factoryOrValue);
+        }
         $this->instances[$name] = $factoryOrValue;
         return $this;
     }

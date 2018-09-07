@@ -20,8 +20,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Phore\\Di\\": "src/Di"
-        }
+            "Phore\\Di\\": "src/"
+        },
+        "files": [
+            "src/function.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
