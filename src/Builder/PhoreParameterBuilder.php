@@ -64,7 +64,11 @@
                     throw new \InvalidArgumentException("Array is no valid callback." . var_export($callable, true));
                 }
             } else {
-                $ref = new \ReflectionFunction($callable);
+                if (is_object($callable)) {
+                    $ref = new \ReflectionMethod(get_class($callable), "__invoke");
+                } else {
+                    $ref = new \ReflectionFunction($callable);
+                }
             }
             return $this->buildFromParameterArray($ref->getParameters());
         }
