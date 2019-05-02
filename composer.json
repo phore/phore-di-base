@@ -23,7 +23,7 @@
             "Phore\\Di\\": "src/"
         },
         "files": [
-            "src/function.php"
+            "src/functions.php"
         ]
     },
     "autoload-dev": {
