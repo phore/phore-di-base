@@ -150,7 +150,7 @@ class DiContainer extends PhoreBaseDiCaller implements ContainerInterface
     public function argumentToResolvable ($input) : DiResolvable
     {
         if ( ! $input instanceof DiResolvable) {
-            if (is_callable($input)) {
+            if (is_callable($input) && ! is_string($input)) {
                 return new DiService($input);
             } else {
                 return new DiValue($input);
