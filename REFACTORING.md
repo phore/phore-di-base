@@ -6,3 +6,7 @@
 - for constructors
 
 3) Combine these into a new caller
+
+4) Write a dump() method to dump all registered Services
+
+5) Keep documentation up to date!
