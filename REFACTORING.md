@@ -17,3 +17,5 @@
 4) Write a dump() method to dump all registered Services
 
 5) Keep documentation up to date!
+
+6) Deploy a tagged version
