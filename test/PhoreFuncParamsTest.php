@@ -4,7 +4,11 @@
 namespace Test;
 
 
-class PhoreFuncParamsTest
+use PHPUnit\Framework\TestCase;
+
+class PhoreFuncParamsTest extends TestCase
 {
+
+
 
 }
