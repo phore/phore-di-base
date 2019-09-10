@@ -9,7 +9,6 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
          bootstrap="vendor/autoload.php"
 >
     <php>
@@ -29,8 +28,4 @@
             <group>benchmark</group>
         </exclude>
     </groups>
-
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
 </phpunit>

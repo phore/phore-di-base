@@ -9,9 +9,10 @@
     namespace Phore\Test\Di;
 
 
-    use Phore\Di\PhoreBaseDiCaller;
+    use Phore\Di\Caller\PhoreBaseDiCaller;
+    use PHPUnit\Framework\TestCase;
 
-    class PhoreBaseDiCallerTest extends \PHPUnit_Framework_TestCase
+    class PhoreBaseDiCallerTest extends TestCase
     {
 
 
