@@ -11,8 +11,9 @@
 
     use Phore\Di\Builder\PhoreParameterBuilderCallback;
     use Phore\Di\Builder\PhoreParameterBuilder;
+    use PHPUnit\Framework\TestCase;
 
-    class PhoreParameterBuilderTest extends \PHPUnit_Framework_TestCase
+    class PhoreParameterBuilderTest extends TestCase
     {
 
 
