@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 class PhoreFuncParamsTest extends TestCase
 {
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testLambdaFunction()
     {
         $l = function($a) {};
@@ -49,10 +52,10 @@ class PhoreFuncParamsTest extends TestCase
         $this->assertEquals(1, count($params));
     }
 
-    public function testArrayNotCallable()
+    public function testExceptionMethodNotInObject()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Array is not callable.");
+        $this->expectExceptionMessage("Array is not callable: Method does not exist.");
 
         $object = new ClassWithConstructor(1);
         $params = phore_func_params([$object, "noMethod"]);
@@ -61,11 +64,26 @@ class PhoreFuncParamsTest extends TestCase
     public function testExceptionArrayHasNoObjectOrClass()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Array is no valid callback.");
+        $this->expectExceptionMessage("Array is not callable.");
 
-        //$object = new ClassWithConstructor(1);
         $object = 1;
         $params = phore_func_params([$object, "noMethod"]);
+    }
+
+    public function testExceptionArrayIsEmpty()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Array is not callable.");
+
+        $params = phore_func_params([]);
+    }
+
+    public function testExceptionParameterIsNull()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Array is not callable.");
+
+        $params = phore_func_params(null);
     }
 
 

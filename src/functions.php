@@ -3,12 +3,22 @@
 use Phore\Di\Builder\PhoreCallbackParameterDef;
 
 /**
- * @param callable $callable
+ * get reflection parameters for any callback
+ *
+ * <example>
+ *  phore_func_params([SomeClass::class, "__construct"]) // constructor
+ *  phore_func_params([SomeClass::class, "SomeStaticMethod"]); //static method
+ *  phore_func_params([$object, "SomeMethod"]) //method
+ *  phore_func_params(function($a, $b, $c){}) //lambda function
+ * </example>
+ *
+ * @throws ReflectionException
+ * @param mixed $callable
  * @return ReflectionParameter[]
  */
 function phore_func_params($callable) : array
 {
-    if (is_array($callable)) {
+    if (is_array($callable) && count($callable)===2) {
         if (is_object($callable[0])) {
             if ($callable[1] === "__construct") {
                 $ref = new \ReflectionClass(get_class($callable[0]));
@@ -21,17 +31,19 @@ function phore_func_params($callable) : array
                 $ref = new \ReflectionMethod(get_class($callable[0]), $callable[1]);
                 return $ref->getParameters();
             } else {
-                throw new \InvalidArgumentException("Array is not callable.");
+                throw new \InvalidArgumentException("Array is not callable: Method does not exist.");
             }
         } else if (is_string($callable[0])) {
             $ref = new \ReflectionMethod($callable[0], $callable[1]);
             return $ref->getParameters();
         } else {
-            throw new \InvalidArgumentException("Array is no valid callback.");
+            throw new \InvalidArgumentException("Array is not callable.");
         }
-    } else {
+    } elseif(is_callable($callable)) {
         $ref = new \ReflectionFunction($callable);
         return $ref->getParameters();
+    } else {
+        throw new \InvalidArgumentException("Array is not callable.");
     }
 }
 
