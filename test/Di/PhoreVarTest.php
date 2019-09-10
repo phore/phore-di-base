@@ -6,7 +6,6 @@ namespace Test;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-require_once "../../src/functions.php";
 
 class PhoreVarTest extends TestCase
 {
