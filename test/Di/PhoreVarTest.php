@@ -11,13 +11,14 @@ class PhoreVarTest extends TestCase
 {
     /**
      * @dataProvider basicTypesProvider
+     * @param $type
+     * @param $expected
      */
-    public function testReturnsBasicTypes($type,$expected)
+    public function testReturnsBasicTypes($type, $expected)
     {
         //Assert
-        $this->assertEquals($expected,phore_var($type));
+        $this->assertEquals($expected, phore_var($type));
     }
-
 
     public function basicTypesProvider()
     {
@@ -29,7 +30,7 @@ class PhoreVarTest extends TestCase
             [[1], "[array:1]"],
             [new DateTime(), "[object:DateTime]"],
             [fopen("foo", "w"), "[resource:stream]"],
-            [null,"[NULL:]"]
+            [null, "[NULL:]"]
         ];
     }
 }
