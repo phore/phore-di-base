@@ -20,7 +20,7 @@ function phore_func_params($callable): array
         if (is_object($callable[0])) {
             if ($callable[1] === "__construct") {
                 $ref = new \ReflectionClass(get_class($callable[0]));
-                if (($constructorRef = $ref->getConstructor()) === null) {
+                if (($ref->getConstructor()) === null) {
                     return [];
                 } else {
                     return $ref->getConstructor()->getParameters();
@@ -72,5 +72,9 @@ function phore_var($var): string
         default:
             $var = 'Unexpected value';
     }
+    //todo if reflectionsParam show name of refl param
+    //todo callable implementing
     return "[$type:$var]";
+
+
 }
