@@ -2,3 +2,6 @@
 composer.lock
 vendor/
 /.phpunit.result.cache
+.phpstorm_helpers/
+phpstorm-coverage/
+test/Di/foo
