@@ -20,6 +20,15 @@ class PhoreVarTest extends TestCase
         $this->assertEquals($expected, phore_var($type));
     }
 
+    public function testReturnsInformationAboutLambdaFunction()
+    {
+        $var = function () {
+            return;
+        };
+
+        $this->assertEquals("Callable  : Lines 25 - 27 in /opt/test/Di/PhoreVarTest.php",phore_var($var));
+    }
+
     public function basicTypesProvider()
     {
         return [
@@ -33,4 +42,13 @@ class PhoreVarTest extends TestCase
             [null, "[NULL:]"]
         ];
     }
+}
+
+class TestVarClass {
+
+    public function testMethod()
+    {
+        return "testMethod";
+    }
+
 }

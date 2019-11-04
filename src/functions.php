@@ -49,32 +49,45 @@ function phore_func_params($callable): array
 
 function phore_var($var): string
 {
-    $type = gettype($var);
+    if (!is_callable($var)) {
 
-    switch ($type) {
-        case "boolean" :
-            $var = $var ? "true" : "false";
-            break;
-        case "array" :
-            $var = count($var);
-            break;
-        case "object" :
-            $var = get_class($var);
-            break;
-        case "resource" :
-            $var = get_resource_type($var);
-            break;
-        case "double":
-        case "integer":
-        case "NULL":
-        case "string":
-            break;
-        default:
-            $var = 'Unexpected value';
+        $type = gettype($var);
+
+        switch ($type) {
+            case "boolean" :
+                $var = $var ? "true" : "false";
+                break;
+            case "array" :
+                $var = count($var);
+                break;
+            case "object" :
+                $var = get_class($var);
+                break;
+            case "resource" :
+                $var = get_resource_type($var);
+                break;
+            case "double":
+            case "integer":
+            case "NULL":
+            case "string":
+                break;
+            default:
+                $var = 'Unexpected value';
+        }
+        return "[$type:$var]";
+    } else {
+            $reflection = new ReflectionFunction($var);
+            $name = $reflection->getName();
+            $startLine = $reflection->getStartLine();
+            $endLine = $reflection->getEndLine();
+            $fileName = $reflection->getFileName();
+
+            if (strpos($name, "{closure}")){
+                $name = "";
+            }
+            return "Callable $name : Lines $startLine - $endLine in $fileName";
     }
-    //todo if reflectionsParam show name of refl param
+
+
     //todo callable implementing
-    return "[$type:$var]";
-
-
 }
