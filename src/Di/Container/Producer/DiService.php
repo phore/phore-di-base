@@ -24,11 +24,11 @@ class DiService implements DiResolvable
     }
 
 
-    public function resolve(DiContainer $container)
+    public function resolve(DiContainer $container, array $optParams = [])
     {
-        if(!$this->isResolved) {
+        if( ! $this->isResolved) {
             $this->isResolved = true;
-            $this->value = $container->__invoke($this->factory, []);
+            $this->value = phore_di_call($this->factory, $container, $optParams);
         }
         return $this->value;
     }

@@ -13,5 +13,5 @@ use Phore\Di\Container\DiContainer;
 
 interface DiResolvable
 {
-    public function resolve(DiContainer $container);
+    public function resolve(DiContainer $container, array $optParams = []);
 }

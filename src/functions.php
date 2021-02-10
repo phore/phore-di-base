@@ -2,38 +2,45 @@
 
 use Phore\Di\Builder\PhoreCallbackParameterDef;
 
+
 /**
- * @param callable $callable
- * @return ReflectionParameter[]
+ * Return new instance of an class specified in parameter 1
+ *
+ * Di is applied to the classes constructor
+ *
+ * @param string $className
+ * @param \Phore\Di\Container\DiContainer $container
+ * @param array $params
+ * @return object
+ * @throws \Phore\Di\Container\DiUnresolvableInternalException
  */
-function phore_func_params($callable) : array
+function phore_di_instantiate(string $className, \Phore\Di\Container\DiContainer $container, array $params = [])
 {
-    if (is_array($callable)) {
-        if (is_object($callable[0])) {
-            if ($callable[1] === "__construct") {
-                $ref = new \ReflectionClass(get_class($callable[0]));
-                if (($constructorRef = $ref->getConstructor()) === null) {
-                    return [];
-                } else {
-                    return $ref->getConstructor()->getParameters();
-                }
-            } elseif (is_callable($callable)) {
-                $ref = new \ReflectionMethod(get_class($callable[0]), $callable[1]);
-                return $ref->getParameters();
-            } else {
-                throw new \InvalidArgumentException("Array is not callable.");
-            }
-        } else if (is_string($callable[0])) {
-            $ref = new \ReflectionMethod($callable[0], $callable[1]);
-            return $ref->getParameters();
-        } else {
-            throw new \InvalidArgumentException("Array is no valid callback.");
-        }
-    } else {
-        $ref = new \ReflectionFunction($callable);
-        return $ref->getParameters();
-    }
+    $helper = new \Phore\Di\Helper\PhoreParameterHelper();
+    $reflectionParameters = $helper->getReflectionParameters([$className, "__construct"]);
+    $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
+
+    return new $className(...$parameters);
 }
+
+/**
+ * Call the callable in parameter 1 using dependeny injection and return the results
+ *
+ * @param callable $callable
+ * @param \Phore\Di\Container\DiContainer $container
+ * @param array $params
+ * @return mixed
+ * @throws \Phore\Di\Container\DiUnresolvableInternalException
+ */
+function phore_di_call(callable $callable, \Phore\Di\Container\DiContainer $container, array $params = [])
+{
+    $helper = new \Phore\Di\Helper\PhoreParameterHelper();
+    $reflectionParameters = $helper->getReflectionParameters($callable);
+    $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
+
+    return $callable(...$parameters);
+}
+
 
 function phore_var($var): string
 {
@@ -52,8 +59,15 @@ function phore_var($var): string
         case "resource" :
             $var = get_resource_type($var);
             break;
+        case "integer" :
+        case "string" :
+        case "double" :
+            break;
+        case "NULL" :
+            $var = "";
+            break;
         default:
-            $var = 'Unexpected value';
+            $var = 'Unexpected value:' . $type;
     }
 
     return "[$type:$var]";

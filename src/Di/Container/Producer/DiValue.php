@@ -20,7 +20,7 @@ class DiValue implements DiResolvable
         $this->value = $value;
     }
 
-    public function resolve (DiContainer $container)
+    public function resolve (DiContainer $container, array $optParams = [])
     {
         return $this->value;
     }
