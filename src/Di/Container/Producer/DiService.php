@@ -24,7 +24,7 @@ class DiService implements DiResolvable
     }
 
 
-    public function resolve(DiContainer $container, array $optParams = [])
+    public function resolve(DiContainer $container, array $optParams = [], \ReflectionClass $class = null, bool $isArray = false)
     {
         if( ! $this->isResolved) {
             $this->isResolved = true;

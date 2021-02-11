@@ -67,7 +67,7 @@ class DiContainer implements ContainerInterface
      * @throws DiUnresolvableException
      * @throws \ErrorException
      */
-    public function resolve($name, array $addParams = [])
+    public function resolve($name, array $addParams = [], \ReflectionClass $class = null, bool $isArray = false)
     {
         if (isset ($addParams[$name])) {
             $resv = $addParams[$name];
@@ -83,7 +83,7 @@ class DiContainer implements ContainerInterface
                 ." for name '$name'"
             );
         }
-        return $resv->resolve($this);
+        return $resv->resolve($this, $addParams, $class, $isArray);
     }
 
 

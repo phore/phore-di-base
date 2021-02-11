@@ -67,7 +67,7 @@ class PhoreParameterHelper
             if (isset ($optParams[$name])) {
                 $optParamVal = $optParams[$name];
                 if ($optParamVal instanceof DiResolvable) {
-                    $parameters[] = $optParamVal->resolve($diContainer, $optParams);
+                    $parameters[] = $optParamVal->resolve($diContainer, $optParams, $reflectionParameter->getClass(), $reflectionParameter->isArray());
                     continue;
                 }
                 $parameters[] = $optParamVal;
@@ -75,7 +75,7 @@ class PhoreParameterHelper
             }
 
             if ($diContainer->has($name)) {
-                $val = $diContainer->resolve($name, $optParams);
+                $val = $diContainer->resolve($name, $optParams, $reflectionParameter->getClass(), $reflectionParameter->isArray());
                 $parameters[] = $val;
                 continue;
             }
