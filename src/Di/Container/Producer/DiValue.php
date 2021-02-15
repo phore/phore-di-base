@@ -13,12 +13,10 @@ use Phore\Di\Container\DiContainer;
 
 class DiValue implements DiResolvable
 {
-    private $value;
 
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
+    public function __construct(
+        private mixed $value
+    ){}
 
     public function resolve (DiContainer $container, array $optParams = [], \ReflectionClass $class = null, bool $isArray = false)
     {
