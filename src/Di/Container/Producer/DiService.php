@@ -14,6 +14,7 @@ use Phore\Di\Container\DiContainer;
 class DiService implements DiResolvable
 {
 
+    private $factory;
     private $value;
     private $isResolved = false;
 
