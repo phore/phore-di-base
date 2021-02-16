@@ -72,7 +72,7 @@ class DiContainer implements ContainerInterface
         if (isset ($addParams[$name])) {
             $resv = $addParams[$name];
             $resv = $this->argumentToResolvable($resv);
-        } else if ($this->instances[$name]) {
+        } else if (isset ($this->instances[$name])) {
             $resv = $this->instances[$name];
         } else {
             throw new DiUnresolvableException("'$name' is not resolvable by di-container.");
