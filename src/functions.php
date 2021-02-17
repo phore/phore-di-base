@@ -42,16 +42,20 @@ function phore_di_call(callable $callable, \Phore\Di\Container\DiContainer $cont
 }
 
 
-function phore_var($var): string
+function phore_debug_type($var): string
 {
-    $type = gettype($var);
+    $type = get_debug_type($var);
 
     switch ($type) {
-        case "boolean" :
+        case "bool" :
             $var = $var ? "true" : "false";
             break;
         case "array" :
             $var = count($var);
+            break;
+        case "Closure" :
+            $ref = new ReflectionFunction($var);
+            $var = $ref->getFileName() . " Line:" . $ref->getStartLine() . "-" . $ref->getEndLine();
             break;
         case "object" :
             $var = get_class($var);
@@ -61,9 +65,9 @@ function phore_var($var): string
             break;
         case "integer" :
         case "string" :
-        case "double" :
+        case "float" :
             break;
-        case "NULL" :
+        case "null" :
             $var = "";
             break;
         default:
