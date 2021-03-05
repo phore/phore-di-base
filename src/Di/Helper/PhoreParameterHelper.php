@@ -23,7 +23,7 @@ class PhoreParameterHelper
     {
         if (is_array($callable)) {
             if (is_object($callable[0])) {
-                 if (is_callable($callable)) {
+                if (is_callable($callable)) {
                     $ref = new \ReflectionMethod(get_class($callable[0]), $callable[1]);
                     return $ref->getParameters();
                 } else {
@@ -44,6 +44,9 @@ class PhoreParameterHelper
             } else {
                 throw new \InvalidArgumentException("Array is no valid callback.");
             }
+        } else if (is_object($callable)) {
+            $ref = new \ReflectionObject($callable);
+            return $ref->getMethod("__invoke")->getParameters();
         } else {
             $ref = new \ReflectionFunction($callable);
             return $ref->getParameters();
