@@ -36,15 +36,19 @@ class DiContainer implements ContainerInterface
     }
 
     /**
+     * @template T
      * @param $name
-     *
-     * @return mixed
+     * @param class-name<T> $class
+     * @return T
      * @throws DiUnresolvableException
      * @throws \ErrorException
      */
-    public function get($name)
+    public function get($name, string $class=null)
     {
-        return $this->resolve($name);
+        $resolved = $this->resolve($name);
+        if ($class !== null && ! $resolved instanceof $class)
+            throw new \UnexpectedValueException("Unexpected object for dependency: '$name' - expected class '$class'");
+        return $resolved;
     }
 
 
