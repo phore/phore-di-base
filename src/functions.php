@@ -44,12 +44,13 @@ function phore_di_call(callable $callable, \Phore\Di\Container\DiContainer $cont
         $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
     } catch (Exception $e) {
         $ref = new ReflectionFunction($callable);
-        throw new InvalidArgumentException("Exception with Message: '$e->getMessage()' occured while building parameters for " .
+        throw new InvalidArgumentException("Exception '{$e->getMessage()}' occured while building parameters for " .
             $ref->getFileName() .
             " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
+
     } catch (Error $e) {
         $ref = new ReflectionFunction($callable);
-        throw new Error("Error with Message: '$e->getMessage()' occured while building parameters for " .
+        throw new Error("Error '{$e->getMessage()}' occured while building parameters for " .
             $ref->getFileName() .
             " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
     }
