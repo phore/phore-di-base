@@ -18,7 +18,10 @@ function phore_di_instantiate(string $className, \Phore\Di\Container\DiContainer
 {
     $helper = new \Phore\Di\Helper\PhoreParameterHelper();
     $reflectionParameters = $helper->getReflectionParameters([$className, "__construct"]);
+
     $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
+
+
 
     return new $className(...$parameters);
 }
@@ -36,7 +39,21 @@ function phore_di_call(callable $callable, \Phore\Di\Container\DiContainer $cont
 {
     $helper = new \Phore\Di\Helper\PhoreParameterHelper();
     $reflectionParameters = $helper->getReflectionParameters($callable);
-    $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
+
+    try {
+        $parameters = $helper->buildParameters($reflectionParameters, $container, $params);
+    } catch (Exception $e) {
+        $ref = new ReflectionFunction($callable);
+        throw new InvalidArgumentException("Exception with Message: '$e->getMessage()' occured while building parameters for " .
+            $ref->getFileName() .
+            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
+    } catch (Error $e) {
+        $ref = new ReflectionFunction($callable);
+        throw new Error("Error with Message: '$e->getMessage()' occured while building parameters for " .
+            $ref->getFileName() .
+            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
+    }
+
 
     return $callable(...$parameters);
 }
