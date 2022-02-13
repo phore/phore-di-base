@@ -60,12 +60,12 @@ class PhoreParameterHelper
      * @param array $optParams
      * @return array
      */
-    public function buildParameters (array $reflectionParameters, DiContainer $diContainer, array $optParams = []) : array
+    public function buildParameters (array $reflectionParameters, DiContainer $diContainer, array $optParams = [], &$failedParam=null) : array
     {
         $parameters = [];
         foreach ($reflectionParameters as $reflectionParameter) {
             $name = $reflectionParameter->getName();
-
+            $failedParam = $name;
             // Load from optParams
             if (isset ($optParams[$name])) {
                 $optParamVal = $optParams[$name];
@@ -90,6 +90,7 @@ class PhoreParameterHelper
             $parameters[] = $default;
             continue;
         }
+        $failedParam = null;
         return $parameters;
     }
 
