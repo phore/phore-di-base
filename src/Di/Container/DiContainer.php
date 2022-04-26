@@ -38,7 +38,7 @@ class DiContainer implements ContainerInterface
     /**
      * @template T
      * @param $name
-     * @param class-name<T> $class
+     * @param class-string<T> $class
      * @return T
      * @throws DiUnresolvableException
      * @throws \ErrorException
