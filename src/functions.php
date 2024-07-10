@@ -47,13 +47,13 @@ function phore_di_call(callable $callable, \Phore\Di\Container\DiContainer $cont
         $ref = new ReflectionFunction($callable);
         throw new InvalidArgumentException("Exception '{$e->getMessage()}' occured while building parameter '$failedParam' for " .
             $ref->getFileName() .
-            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
+            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", (int)$e->getCode(), $e);
 
     } catch (Error $e) {
         $ref = new ReflectionFunction($callable);
         throw new Error("Error '{$e->getMessage()}' occured while building parameter '$failedParam' for " .
             $ref->getFileName() .
-            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", $e->getCode(), $e);
+            " [Line:" . $ref->getStartLine() . "-" . $ref->getEndLine() . "]", (int)$e->getCode(), $e);
     }
 
 
