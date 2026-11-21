@@ -18,7 +18,7 @@ class DiValue implements DiResolvable
         private mixed $value
     ){}
 
-    public function resolve (DiContainer $container, array $optParams = [], \ReflectionClass $class = null, bool $isArray = false)
+    public function resolve (DiContainer $container, array $optParams = [], ?\ReflectionClass $class = null, bool $isArray = false)
     {
         return $this->value;
     }

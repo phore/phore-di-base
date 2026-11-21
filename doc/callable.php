@@ -12,7 +12,7 @@ class Demo {
      */
     public $cb;
 
-    public function __construct(Demo $a1 = null)
+    public function __construct(?Demo $a1 = null)
     {
         $this->cb = function ($a, $b) {
             echo "L-CALLED $a $b ";

@@ -17,7 +17,7 @@ class DiProducer implements DiResolvable
     }
 
 
-    public function resolve(DiContainer $container, array $optParams = [], \ReflectionClass $class = null, bool $isArray = false)
+    public function resolve(DiContainer $container, array $optParams = [], ?\ReflectionClass $class = null, bool $isArray = false)
     {
         return ($this->producer)($container, $optParams, $class, $isArray);
     }
