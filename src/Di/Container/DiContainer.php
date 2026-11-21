@@ -43,7 +43,7 @@ class DiContainer implements ContainerInterface
      * @throws DiUnresolvableException
      * @throws \ErrorException
      */
-    public function get($name, string $class=null)
+    public function get($name, ?string $class = null)
     {
         $resolved = $this->resolve($name);
         if ($class !== null && ! $resolved instanceof $class)
@@ -71,7 +71,7 @@ class DiContainer implements ContainerInterface
      * @throws DiUnresolvableException
      * @throws \ErrorException
      */
-    public function resolve($name, array $addParams = [], \ReflectionClass $class = null, bool $isArray = false)
+    public function resolve($name, array $addParams = [], ?\ReflectionClass $class = null, bool $isArray = false)
     {
         if (isset ($addParams[$name])) {
             $resv = $addParams[$name];

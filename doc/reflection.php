@@ -6,7 +6,7 @@
  */
 class Demo {
 
-    public function __construct(Demo $a1 = null)
+    public function __construct(?Demo $a1 = null)
     {
 
     }
